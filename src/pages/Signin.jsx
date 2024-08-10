@@ -26,7 +26,6 @@ const Signin = () => {
     setRecaptchaToken(token);
   };
 
-
   const onLogin = async () => {
     if (!recaptchaToken) {
       toast.error("Please complete the reCAPTCHA");
@@ -37,10 +36,13 @@ const Signin = () => {
       setLoading(true);
       setButtonDisabled(true);
 
-      const response = await axios.post("http://localhost:8000/auth/login", {
-        ...user,
-        recaptchaToken,
-      });
+      const response = await axios.post(
+        "https://authenticator-server.vercel.app/auth/login",
+        {
+          ...user,
+          recaptchaToken,
+        }
+      );
 
       if (response?.data) {
         localStorage.setItem("userData", JSON.stringify(response.data));

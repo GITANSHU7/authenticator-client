@@ -1,10 +1,5 @@
 import axios from "axios";
-import {
-    Avatar,
-    Dropdown,
-    Navbar,
-    useThemeMode
-} from "flowbite-react";
+import { Avatar, Dropdown, Navbar, useThemeMode } from "flowbite-react";
 import { FaRegSun } from "react-icons/fa";
 import { LuMoon } from "react-icons/lu";
 import { useSelector } from "react-redux";
@@ -13,7 +8,6 @@ import { useAuth } from "../Context/AuthContext";
 import { clearUserData } from "../redux/authSlice";
 
 const SideBar = () => {
- 
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { toggleMode, mode } = useThemeMode();
@@ -33,7 +27,7 @@ const SideBar = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:8000/auth/signout",
+        "https://authenticator-server.vercel.app/auth/signout",
         null,
         {
           headers: {
@@ -47,17 +41,20 @@ const SideBar = () => {
       setUserDetails(null);
       window.location.href = "/signin";
     } catch (error) {
-      console.error(error.message || "Error fetching user details"); 
+      console.error(error.message || "Error fetching user details");
     }
   };
-
 
   return (
     <>
       <Navbar fluid rounded className="bg-blue-400 dark:bg-slate-900">
         <Navbar.Brand>
-        
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white" onClick={()=> { navigate('/')}}>
+          <span
+            className="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             Authenticator
           </span>
         </Navbar.Brand>
@@ -85,17 +82,15 @@ const SideBar = () => {
             }
           >
             <Dropdown.Header>
-            
               <span className="block truncate text-sm font-medium">
                 {user?.data?.user?.username}
               </span>
             </Dropdown.Header>
-          
+
             <Dropdown.Item onClick={onLogout}>Sign out</Dropdown.Item>
           </Dropdown>
         </div>
       </Navbar>
-      
     </>
   );
 };

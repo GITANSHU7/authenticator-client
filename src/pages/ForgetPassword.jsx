@@ -1,49 +1,44 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
-     const navigate = useNavigate();
+  const navigate = useNavigate();
 
-     const [user, setUser] = useState({
-       username: ""
-     });
+  const [user, setUser] = useState({
+    username: "",
+  });
   const [loading, setLoading] = useState(false);
 
-      const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-      const userForgotPassword = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.post(
-            "http://localhost:8000/auth/forgot-password",
-            user
-          );
-          console.log(response);
-          if (response.data) {
-            toast.success(
-              "Forgot password link sent successfully!"
-            );
-            navigate("/signin");
-          }
-        } catch (error) {
-          toast.error(error.response.data.error);
-        } finally {
-          setLoading(false);
-        }
-      };
+  const userForgotPassword = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "https://authenticator-server.vercel.app/auth/forgot-password",
+        user
+      );
+      console.log(response);
+      if (response.data) {
+        toast.success("Forgot password link sent successfully!");
+        navigate("/signin");
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        useEffect(() => {
-          if (
-            user.username.length > 0
-          ) {
-            setButtonDisabled(false);
-          } else {
-            setButtonDisabled(true);
-          }
-        }, [user]);
+  useEffect(() => {
+    if (user.username.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  }, [user]);
 
   return (
     <div className="py-16">
@@ -111,6 +106,6 @@ const ForgetPassword = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ForgetPassword
+export default ForgetPassword;
