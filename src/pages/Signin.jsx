@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import { setUserData } from "../redux/authSlice";
+import { Popover, Spinner } from "flowbite-react";
 
 const Signin = () => {
   const { authenticated, setAuthenticated } = useAuth();
@@ -121,14 +122,88 @@ const Signin = () => {
                 Password
               </label>
             </div>
-            <input
-              className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-              type="password"
-              name="password"
-              value={user.password}
-              onChange={(e) => setUser({ ...user, password: e.target.value })}
-              placeholder="Password"
-            />
+            <Popover
+              trigger="hover"
+              content={
+                <div className="space-y-2 p-3">
+                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                    Must have at least 7 characters
+                  </h3>
+
+                  <p className="dark:text-white">It’s better to have:</p>
+                  <ul>
+                    <li className="mb-1 flex items-center">
+                      <svg
+                        className="me-2 h-3.5 w-3.5 text-green-400 dark:text-green-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 16 12"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M1 5.917 5.724 10.5 15 1.5"
+                        />
+                      </svg>
+                      <span className="dark:text-white">
+                        {" "}
+                        1 Upper & 1 lower case letters
+                      </span>
+                    </li>
+                    <li className="mb-1 flex items-center">
+                      <svg
+                        className="me-2 h-3.5 w-3.5 text-green-400 dark:text-green-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 16 12"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M1 5.917 5.724 10.5 15 1.5"
+                        />
+                      </svg>
+                      <span className="dark:text-white">
+                        1 special character
+                      </span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        className="me-2 h-3.5 w-3.5 text-green-400 dark:text-green-500"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 16 12"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M1 5.917 5.724 10.5 15 1.5"
+                        />
+                      </svg>
+                      <span className="dark:text-white">1 Number</span>
+                    </li>
+                  </ul>
+                </div>
+              }
+            >
+              <input
+                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                type="password"
+                name="password"
+                value={user.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                placeholder="Password"
+              />
+            </Popover>
           </div>
           <p
             className="flex justify-end mt-1 text-xs text-gray-500 uppercase cursor-pointer hover:text-red-600 "
@@ -144,7 +219,46 @@ const Signin = () => {
             </div>
           </div>
           <div className="mt-8">
-            <button
+            {loading ? (
+              <>
+                {" "}
+                <div className="flex items-center justify-center mt-2">
+                  <Spinner
+                    className=""
+                    aria-label="Extra large spinner example"
+                    size="xl"
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={onLogin}
+                  disabled={buttonDisabled}
+                  className={`mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${
+                    buttonDisabled ? "cursor-not-allowed opacity-50" : ""
+                  }`}
+                >
+                  <svg
+                    className="w-6 h-6 -ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                    <circle cx="8.5" cy={7} r={4} />
+                    <path d="M20 8v6M23 11h-6" />
+                  </svg>
+                  <span className="ml-3">
+                    {" "}
+                    {buttonDisabled ? "Fill All Details" : "Sign In"}
+                  </span>
+                </button>
+              </>
+            )}
+            {/* <button
               className={`bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600 ${
                 buttonDisabled ? "cursor-not-allowed opacity-50" : ""
               }`}
@@ -152,7 +266,7 @@ const Signin = () => {
               disabled={buttonDisabled}
             >
               Login
-            </button>
+            </button> */}
           </div>
 
           <div className="mt-4 flex items-center justify-between">
